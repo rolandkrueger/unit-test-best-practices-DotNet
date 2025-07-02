@@ -4,7 +4,7 @@ using Xunit.Sdk;
 
 namespace TestDemo.dependencyInversion;
 
-public class TestUsersForMethodAttribute(TestUserType userType = TestUserType.Anonymous) : DataAttribute
+public class TestUsersAttribute(TestUserType userType = TestUserType.Anonymous) : DataAttribute
 {
     public override IEnumerable<object[]> GetData(MethodInfo testMethod)
     {
@@ -20,16 +20,4 @@ public class TestUsersForMethodAttribute(TestUserType userType = TestUserType.An
         TestUserType.Customer => TestObjects.Users().CustomerUser(),
         _ => TestObjects.Users().AnonymousUser()
     };
-}
-
-[AttributeUsage(AttributeTargets.Parameter)]
-public class TestUserAttribute(TestUserType kind) : Attribute
-{
-    public TestUserType Kind { get; } = kind;
-}
-
-[AttributeUsage(AttributeTargets.Parameter)]
-public class TestItemAttribute(TestItemType kind) : Attribute
-{
-    public TestItemType Kind { get; } = kind;
 }

@@ -17,14 +17,14 @@ public class TestObjectsTest
     }
     
     [Theory]
-    [TestUsersForMethod]
+    [TestUsers]
     public void TestStuffWithInjectionAndDefaultTestObject(User anon)
     {
         anon.Role.Should().Be("anonymous");
     }
     
     [Theory]
-    [TestUsersForMethod(TestUserType.Administrator)]
+    [TestUsers(TestUserType.Administrator)]
     public void TestStuffWithInjection(User admin)
     {
         admin.Role.Should().Be("admin");
@@ -35,12 +35,14 @@ public class TestObjectsTest
     public void SomeTest(
         [TestUser(TestUserType.Administrator)] User admin,
         [TestUser(TestUserType.Customer)] User customer,
-        ItemDto item,
+        ItemDto defaultItem,
+        [TestItem(TestItemType.FullyConfigured)] ItemDto fullyConfiguredItem,
         string? unsupportedParameterType)
     {
         admin.Role.Should().Be("admin");
         customer.Role.Should().Be("customer");
-        item.Name.Should().Be("Standard Item");
+        defaultItem.Name.Should().Be("Standard Item");
+        fullyConfiguredItem.Name.Should().Be("Fully Configured Item");
         
         unsupportedParameterType.Should().BeNull();
     }
